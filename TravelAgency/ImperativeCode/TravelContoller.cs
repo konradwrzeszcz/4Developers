@@ -20,12 +20,12 @@ namespace TravelAgency.ImperativeCode {
         }
 
         [HttpGet("{id}")]
-        public GetTravelRequest.Response Get([FromQuery] GetTravelRequest request, string id) {
+        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string id) {
             var travel = _travelProvider.Get(request.TravelId);
             if (travel is null)
-                NotFound();
+                return NotFound();
 
-            var discountedPrice = _discountCalculator.Calculate(request.UserId, travel!.Id, request.DiscountCouponCode);
+            var discountedPrice = _discountCalculator.Calculate(request.UserId, travel.Id, request.DiscountCouponCode);
 
             return new GetTravelRequest.Response {
                 Travel          = _travelMapper.Map(travel),
@@ -34,12 +34,12 @@ namespace TravelAgency.ImperativeCode {
         }
 
         [HttpPost("{id}/buy")]
-        public BuyTravelRequest.Response Buy([FromQuery] BuyTravelRequest request, string id) {
+        public ActionResult<BuyTravelRequest.Response> Buy([FromQuery] BuyTravelRequest request, string id) {
             var travel = _travelProvider.Get(request.TravelId);
             if (travel is null)
-                NotFound();
+                return NotFound();
 
-            var boughtTravel = _travelProvider.Update(travel!.Id, t => {
+            var boughtTravel = _travelProvider.Update(travel.Id, t => {
                 t.Sold     = true;
                 t.BoughtBy = request.UserId;
             });

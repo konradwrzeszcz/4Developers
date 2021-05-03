@@ -18,9 +18,10 @@ namespace TravelAgency.ImperativeCode.Discounts {
 
         public decimal Discount(decimal price, string userId) {
             const int minimumTravelCount = 3;
-            var       now                = _dateTimeProvider.GetUtcNow();
-            var       lastYearStart      = new DateTimeOffset(now.Year - 1, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            var       lastYearEnd        = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
+
+            var now           = _dateTimeProvider.GetUtcNow();
+            var lastYearStart = new DateTimeOffset(now.Year - 1, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            var lastYearEnd   = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
 
             var travels = _travelProvider.List();
 

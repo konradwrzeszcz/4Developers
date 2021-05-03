@@ -9,12 +9,12 @@ namespace TravelAgency.DeclarativeCode {
         public Travel[] List()               => _travelsCollection.ToArray();
         public Travel   Get(string travelId) => _travelsCollection.SingleOrDefault(travel => travel.Id == travelId);
 
-        public Travel Update(string travelId, Action<Travel> update) {
+        public Travel Update(string travelId, Travel newValue) {
             var travel = Get(travelId);
 
             if (travel is null) throw new ArgumentException("Travel doesn't exist");
 
-            update(travel);
+            travel = newValue;
 
             return travel;
         }
