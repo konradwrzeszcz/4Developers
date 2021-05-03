@@ -19,9 +19,9 @@ namespace TravelAgency.ImperativeCode {
             _travelMapper       = travelMapper;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string id) {
-            var travel = _travelProvider.Get(request.TravelId);
+        [HttpGet("{travelId}")]
+        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string travelId) {
+            var travel = _travelProvider.Get(travelId);
             if (travel is null)
                 return NotFound();
 
@@ -33,9 +33,9 @@ namespace TravelAgency.ImperativeCode {
             };
         }
 
-        [HttpPost("{id}/buy")]
-        public ActionResult<BuyTravelRequest.Response> Buy([FromQuery] BuyTravelRequest request, string id) {
-            var travel = _travelProvider.Get(request.TravelId);
+        [HttpPost("{travelId}/buy")]
+        public ActionResult<BuyTravelRequest.Response> Buy([FromQuery] BuyTravelRequest request, string travelId) {
+            var travel = _travelProvider.Get(travelId);
             if (travel is null)
                 return NotFound();
 

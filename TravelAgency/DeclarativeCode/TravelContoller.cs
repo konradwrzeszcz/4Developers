@@ -14,9 +14,9 @@ namespace TravelAgency.DeclarativeCode {
             _getUtcNow       = getUtcNow;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string id) {
-            var travel = _travelDataStore.Get(request.TravelId);
+        [HttpGet("{travelId}")]
+        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string travelId) {
+            var travel = _travelDataStore.Get(travelId);
             if (travel is null)
                 return NotFound();
 
@@ -31,9 +31,9 @@ namespace TravelAgency.DeclarativeCode {
             };
         }
 
-        [HttpPost("{id}/buy")]
-        public ActionResult<BuyTravelRequest.Response> Buy([FromQuery] BuyTravelRequest request, string id) {
-            var travel = _travelDataStore.Get(request.TravelId);
+        [HttpPost("{travelId}/buy")]
+        public ActionResult<BuyTravelRequest.Response> Buy([FromQuery] BuyTravelRequest request, string travelId) {
+            var travel = _travelDataStore.Get(travelId);
             if (travel is null)
                 return NotFound();
 
