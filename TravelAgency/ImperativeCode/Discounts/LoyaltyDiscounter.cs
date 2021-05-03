@@ -25,21 +25,21 @@ namespace TravelAgency.ImperativeCode.Discounts {
 
             var travels = _travelProvider.List();
 
-            var userLastYearTravels                = new List<Travel>();
-            var userBoughtMoreThan3TravelsLastYear = false;
+            var userLastYearTravels               = new List<Travel>();
+            var userBoughtAtLeast3TravelsLastYear = false;
 
             for (var i = 0; i < travels.Length; i++) {
                 var travel = travels[i];
-                if (travel.BoughtBy == userId && travel.From > lastYearStart && travel.From < lastYearEnd)
+                if (travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd)
                     userLastYearTravels.Add(travel);
 
                 if (userLastYearTravels.Count == minimumTravelCount) {
-                    userBoughtMoreThan3TravelsLastYear = true;
+                    userBoughtAtLeast3TravelsLastYear = true;
                     break;
                 }
             }
 
-            return userBoughtMoreThan3TravelsLastYear
+            return userBoughtAtLeast3TravelsLastYear
                 ? price * 0.8m
                 : price;
         }

@@ -4,7 +4,17 @@ using System.Linq;
 
 namespace TravelAgency.DeclarativeCode {
     public class TravelDataStore {
-        private List<Travel> _travelsCollection = new();
+        private List<Travel> _travelsCollection = new() {
+            new() {
+                Id          = "1",
+                Destination = "Paris",
+                Price       = 100,
+                From        = new DateTimeOffset(2021, 10, 10, 10, 10, 10, TimeSpan.Zero),
+                To          = new DateTimeOffset(2021, 11, 10, 10, 10, 10, TimeSpan.Zero),
+                BoughtBy    = null,
+                Sold        = false
+            }
+        };
 
         public Travel[] List()               => _travelsCollection.ToArray();
         public Travel   Get(string travelId) => _travelsCollection.SingleOrDefault(travel => travel.Id == travelId);

@@ -20,10 +20,12 @@ namespace TravelAgency.DeclarativeCode {
             if (travel is null)
                 return NotFound();
 
+            var now = _getUtcNow();
+
             var discountedPrice = travel.Price
                 .CalculateCouponDiscount(request.DiscountCouponCode, _getUtcNow)
-                .CalculateLastMinuteDiscount(travel.From, _getUtcNow())
-                .CalculateLoyaltyDiscount(request.UserId, _travelDataStore.List(), _getUtcNow());
+                .CalculateLastMinuteDiscount(travel.From, now)
+                .CalculateLoyaltyDiscount(request.UserId, _travelDataStore.List(), now);
 
             return new GetTravelRequest.Response {
                 Travel          = travel.Map(),

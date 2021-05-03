@@ -22,7 +22,7 @@ namespace TravelAgency {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "TravelAgency", Version = "v1"});
                 c.CustomSchemaIds(x => x.FullName);
             });
-            
+
             services.AddImperativeTravels();
             services.AddDeclarativeTravels();
         }

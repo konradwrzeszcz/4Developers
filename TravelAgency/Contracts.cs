@@ -13,7 +13,7 @@ namespace TravelAgency {
         }
 
         public class BuyTravelRequest {
-            public string UserId   { get; set; }
+            public string UserId { get; set; }
 
             public class Response {
                 public Travel Travel { get; set; }

@@ -14,7 +14,7 @@ namespace TravelAgency.DeclarativeCode.Domain {
 
         public static decimal CalculateLastMinuteDiscount(
             this decimal price, DateTimeOffset travelStartDate, DateTimeOffset now
-        ) => travelStartDate.AddMonths(1) > now ? price * 0.8m : price;
+        ) => travelStartDate.AddMonths(-1) < now ? price * 0.8m : price;
 
         public static decimal CalculateLoyaltyDiscount(
             this decimal price, string userId, Travel[] travels, DateTimeOffset now
@@ -25,10 +25,10 @@ namespace TravelAgency.DeclarativeCode.Domain {
             var lastYearEnd   = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
 
             var userLastYearTravels = travels
-                .Where(travel => travel.BoughtBy == userId && travel.From > lastYearStart && travel.From < lastYearEnd)
+                .Where(travel => travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd)
                 .Count();
 
-            return userLastYearTravels > minimumTravelCount
+            return userLastYearTravels >= minimumTravelCount
                 ? price * 0.8m
                 : price;
         }
