@@ -1,36 +1,66 @@
 using System;
 using System.Linq;
 using static TravelAgency.DeclarativeCode.TravelDataStore;
+using static TravelAgency.DeclarativeCode.Domain.DiscountRuleModule;
 
-namespace TravelAgency.DeclarativeCode.Domain {
-    public static class Discounts {
-        public static decimal CalculateCouponDiscount(this decimal price, string couponCode, GetUtcNow getUtcNow) {
-            const string code2021 = "CHEAPER_TRAVEL_2021";
+namespace TravelAgency.DeclarativeCode.Domain
+{
+    public record CouponCode(string Value);
 
-            return couponCode == code2021 && getUtcNow() < new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero)
-                ? price * 0.8m
-                : price;
-        }
+    public record Amount(decimal Value);
 
-        public static decimal CalculateLastMinuteDiscount(
-            this decimal price, DateTimeOffset travelStartDate, DateTimeOffset now
-        ) => travelStartDate.AddMonths(-1) < now ? price * 0.8m : price;
+    public record Percentage(decimal Value);
 
-        public static decimal CalculateLoyaltyDiscount(
-            this decimal price, string userId, Travel[] travels, DateTimeOffset now
-        ) {
-            const int minimumTravelCount = 3;
+    public record Coupon(CouponCode Code, DateTimeOffset ExpirationDate)
+    {
+        public bool Valid(DateTimeOffset now)
+            => Code == new CouponCode("CHEAPER_TRAVEL_2021") && now < ExpirationDate;
 
-            var lastYearStart = new DateTimeOffset(now.Year - 1, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            var lastYearEnd   = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
+        public static Coupon Of(string code)
+            => new(new CouponCode(code), new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero));
+    }
 
-            var userLastYearTravels = travels
-                .Where(travel => travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd)
-                .Count();
+    public record Discount(Percentage Percentage)
+    {
+        public Amount Apply(Amount price)
+            => new(price.Value * Percentage.Value);
+    }
 
-            return userLastYearTravels >= minimumTravelCount
-                ? price * 0.8m
-                : price;
-        }
+    public static class ApplyDiscountModule
+    {
+        public delegate Amount ApplyDiscount(DateTimeOffset now);
+
+        public static ApplyDiscount CalculateDiscount(Amount price)
+            => _ => price;
+
+        public static ApplyDiscount When(this ApplyDiscount price, DiscountRule discountRule)
+            => When(price, new Discount(new Percentage(0.8m)), discountRule);
+
+        public static ApplyDiscount When(this ApplyDiscount price, Discount discount, DiscountRule discountRule)
+            => now => discountRule(now) ? discount.Apply(price(now)) : price(now);
+    }
+
+
+    public static class DiscountRuleModule
+    {
+        public delegate bool DiscountRule(DateTimeOffset now);
+
+        public static DiscountRule LastMinuteBooking(DateTimeOffset travelStartDate)
+            => now => travelStartDate.AddMonths(-1) < now;
+
+        public static DiscountRule LoyalCustomer(string userId, Travel[] travels)
+            => now =>
+            {
+                const int minimumTravelCount = 3;
+
+                var lastYearStart = new DateTimeOffset(now.Year - 1, 1, 1, 0, 0, 0, TimeSpan.Zero);
+                var lastYearEnd = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
+
+                var userLastYearTravels = travels
+                    .Count(travel =>
+                        travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd);
+
+                return userLastYearTravels >= minimumTravelCount;
+            };
     }
 }
