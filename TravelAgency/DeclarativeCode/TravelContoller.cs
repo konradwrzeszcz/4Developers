@@ -23,7 +23,7 @@ namespace TravelAgency.DeclarativeCode {
             var now = _getUtcNow();
 
             var discountedPrice = travel.Price
-                .CalculateCouponDiscount(request.DiscountCouponCode, _getUtcNow)
+                .CalculateCouponDiscount(request.DiscountCouponCode, now)
                 .CalculateLastMinuteDiscount(travel.From, now)
                 .CalculateLoyaltyDiscount(request.UserId, _travelDataStore.List(), now);
 

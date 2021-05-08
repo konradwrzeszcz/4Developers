@@ -4,10 +4,10 @@ using static TravelAgency.DeclarativeCode.TravelDataStore;
 
 namespace TravelAgency.DeclarativeCode.Domain {
     public static class Discounts {
-        public static decimal CalculateCouponDiscount(this decimal price, string couponCode, GetUtcNow getUtcNow) {
+        public static decimal CalculateCouponDiscount(this decimal price, string couponCode, DateTimeOffset now) {
             const string code2021 = "CHEAPER_TRAVEL_2021";
 
-            return couponCode == code2021 && getUtcNow() < new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero)
+            return couponCode == code2021 && now < new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero)
                 ? price * 0.8m
                 : price;
         }
