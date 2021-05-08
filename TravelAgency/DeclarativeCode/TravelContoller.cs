@@ -1,47 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TravelAgency.DeclarativeCode.Domain;
 using static TravelAgency.Contracts;
-using static TravelAgency.DeclarativeCode.Domain.ApplyDiscountModule;
-using static TravelAgency.DeclarativeCode.Domain.DiscountRuleModule;
 
-namespace TravelAgency.DeclarativeCode
-{
+namespace TravelAgency.DeclarativeCode {
     [ApiController]
     [Route("declarative/travels")]
-    public class TravelController : ControllerBase
-    {
+    public class TravelController : ControllerBase {
         private readonly TravelDataStore _travelDataStore;
-        private readonly GetUtcNow _getUtcNow;
+        private readonly GetUtcNow       _getUtcNow;
 
-        public TravelController(TravelDataStore travelDataStore, GetUtcNow getUtcNow)
-        {
+        public TravelController(TravelDataStore travelDataStore, GetUtcNow getUtcNow) {
             _travelDataStore = travelDataStore;
-            _getUtcNow = getUtcNow;
+            _getUtcNow       = getUtcNow;
         }
 
         [HttpGet("{travelId}")]
-        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string travelId)
-        {
+        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string travelId) {
             var travel = _travelDataStore.Get(travelId);
             if (travel is null)
                 return NotFound();
 
-            var result = CalculateDiscount(new Amount(travel.Price))
-                .When(now => Coupon.Of(request.DiscountCouponCode).Valid(now))
-                .When(LastMinuteBooking(travel.From))
-                .When(LoyalCustomer(request.UserId, _travelDataStore.List()))
-                .Invoke(_getUtcNow());
+            var now = _getUtcNow();
 
-            return new GetTravelRequest.Response
-            {
-                Travel = travel.Map(),
-                DiscountedPrice = result.Value
+            var discountedPrice = travel.Price
+                .CalculateCouponDiscount(request.DiscountCouponCode, _getUtcNow)
+                .CalculateLastMinuteDiscount(travel.From, now)
+                .CalculateLoyaltyDiscount(request.UserId, _travelDataStore.List(), now);
+
+            return new GetTravelRequest.Response {
+                Travel          = travel.Map(),
+                DiscountedPrice = discountedPrice
             };
         }
 
         [HttpPost("{travelId}/buy")]
-        public ActionResult<BuyTravelRequest.Response> Buy([FromQuery] BuyTravelRequest request, string travelId)
-        {
+        public ActionResult<BuyTravelRequest.Response> Buy([FromQuery] BuyTravelRequest request, string travelId) {
             var travel = _travelDataStore.Get(travelId);
             if (travel is null)
                 return NotFound();
@@ -50,8 +43,7 @@ namespace TravelAgency.DeclarativeCode
 
             _travelDataStore.Update(travel.Id, boughtTravel);
 
-            return new BuyTravelRequest.Response
-            {
+            return new BuyTravelRequest.Response {
                 Travel = boughtTravel.Map()
             };
         }
