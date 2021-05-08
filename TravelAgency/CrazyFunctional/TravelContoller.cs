@@ -5,24 +5,20 @@ using static TravelAgency.Contracts;
 using static TravelAgency.CrazyFunctional.Domain.ApplyDiscountModule;
 using static TravelAgency.CrazyFunctional.Domain.DiscountRuleModule;
 
-namespace TravelAgency.CrazyFunctional
-{
+namespace TravelAgency.CrazyFunctional {
     [ApiController]
     [Route("crazy-functional/travels")]
-    public class TravelController : ControllerBase
-    {
+    public class TravelController : ControllerBase {
         private readonly TravelDataStore _travelDataStore;
-        private readonly GetUtcNow _getUtcNow;
+        private readonly GetUtcNow       _getUtcNow;
 
-        public TravelController(TravelDataStore travelDataStore, GetUtcNow getUtcNow)
-        {
+        public TravelController(TravelDataStore travelDataStore, GetUtcNow getUtcNow) {
             _travelDataStore = travelDataStore;
-            _getUtcNow = getUtcNow;
+            _getUtcNow       = getUtcNow;
         }
 
         [HttpGet("{travelId}")]
-        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string travelId)
-        {
+        public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string travelId) {
             var travel = _travelDataStore.Get(travelId);
             if (travel is null)
                 return NotFound();
@@ -33,9 +29,8 @@ namespace TravelAgency.CrazyFunctional
                 .When(LoyalCustomer(request.UserId, _travelDataStore.List()))
                 .Invoke(_getUtcNow());
 
-            return new GetTravelRequest.Response
-            {
-                Travel = travel.Map(),
+            return new GetTravelRequest.Response {
+                Travel          = travel.Map(),
                 DiscountedPrice = result.Value
             };
         }

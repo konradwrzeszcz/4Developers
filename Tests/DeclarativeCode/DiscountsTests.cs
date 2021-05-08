@@ -29,30 +29,30 @@ namespace Tests.DeclarativeCode {
             var currentDate = new DateTimeOffset(2021, 5, 3, 12, 11, 10, TimeSpan.Zero);
 
             var expected = 100m;
-            
+
             //act
             var result = price.CalculateCouponDiscount(couponCode, () => currentDate);
 
             //assert
             result.Should().Be(expected);
         }
-        
+
         [Fact]
         public void should_not_discount_by_expired_coupon() {
             //arrange
             var price       = 100m;
             var couponCode  = "CHEAPER_TRAVEL_2021";
             var currentDate = new DateTimeOffset(2030, 5, 3, 12, 11, 10, TimeSpan.Zero);
-            
-            var expected    = 100m;
-            
+
+            var expected = 100m;
+
             //act
             var result = price.CalculateCouponDiscount(couponCode, () => currentDate);
 
             //assert
             result.Should().Be(expected);
         }
-        
+
         [Fact]
         public void should_discount_by_last_minute() {
             //arrange
@@ -114,7 +114,7 @@ namespace Tests.DeclarativeCode {
             //assert
             result.Should().Be(expected);
         }
-        
+
         [Fact]
         public void should_not_discount_by_loyalty_of_other_user() {
             //arrange
@@ -146,7 +146,7 @@ namespace Tests.DeclarativeCode {
             //assert
             result.Should().Be(expected);
         }
-        
+
         [Fact]
         public void should_not_discount_not_loyal_user_by_loyalty() {
             //arrange
@@ -156,7 +156,7 @@ namespace Tests.DeclarativeCode {
 
             var travels = new[] {
                 new TravelDataStore.Travel {
-                    From     = new DateTimeOffset(2019, 7,7, 23, 59, 59, TimeSpan.Zero),
+                    From     = new DateTimeOffset(2019, 7, 7, 23, 59, 59, TimeSpan.Zero),
                     BoughtBy = userId
                 },
                 new TravelDataStore.Travel {

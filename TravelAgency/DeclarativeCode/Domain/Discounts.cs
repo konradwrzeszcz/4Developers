@@ -25,7 +25,8 @@ namespace TravelAgency.DeclarativeCode.Domain {
             var lastYearEnd   = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
 
             var userLastYearTravels = travels
-                .Where(travel => travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd)
+                .Where(travel =>
+                    travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd)
                 .Count();
 
             return userLastYearTravels >= minimumTravelCount

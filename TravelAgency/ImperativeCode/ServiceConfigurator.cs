@@ -6,7 +6,6 @@ namespace TravelAgency.ImperativeCode {
         public static IServiceCollection AddImperativeTravels(this IServiceCollection services) {
             services.AddSingleton<ITravelProvider, TravelProvider>();
             services.AddSingleton<ITravelMapper, TravelMapper>();
-            services.AddSingleton<IDiscountCalculator, DiscountCalculator>();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             services.AddSingleton<ICouponDiscounter, CouponDiscounter>();
             services.AddSingleton<ILastMinuteDiscounter, LastMinuteDiscounter>();

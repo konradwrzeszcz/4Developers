@@ -4,29 +4,53 @@ using System.Linq;
 
 namespace TravelAgency.DeclarativeCode {
     public class TravelDataStore {
-        private List<Travel> _travelsCollection = new() {
-            new() {
-                Id          = "1",
-                Destination = "Paris",
-                Price       = 100,
-                From        = new DateTimeOffset(2021, 10, 10, 10, 10, 10, TimeSpan.Zero),
-                To          = new DateTimeOffset(2021, 11, 10, 10, 10, 10, TimeSpan.Zero),
-                BoughtBy    = null,
-                Sold        = false
+        private Dictionary<string, Travel> _travelsCollection = new() {
+            {
+                "1", new Travel {
+                    Id          = "1",
+                    Destination = "Toronto",
+                    From        = new DateTimeOffset(2021, 6, 1, 10, 0, 0, TimeSpan.Zero),
+                    To          = new DateTimeOffset(2021, 6, 7, 20, 0, 0, TimeSpan.Zero),
+                    Price       = 3000m,
+                    Sold        = false,
+                    BoughtBy    = null
+                }
+            }, {
+                "2", new Travel {
+                    Id          = "2",
+                    Destination = "New York",
+                    From        = new DateTimeOffset(2021, 7, 10, 10, 0, 0, TimeSpan.Zero),
+                    To          = new DateTimeOffset(2021, 7, 12, 20, 0, 0, TimeSpan.Zero),
+                    Price       = 500m,
+                    Sold        = true,
+                    BoughtBy    = "555"
+                }
+            }, {
+                "3", new Travel {
+                    Id          = "3",
+                    Destination = "Radomsko",
+                    From        = new DateTimeOffset(2021, 8, 1, 10, 0, 0, TimeSpan.Zero),
+                    To          = new DateTimeOffset(2021, 8, 31, 20, 0, 0, TimeSpan.Zero),
+                    Price       = 100m,
+                    Sold        = false,
+                    BoughtBy    = null
+                }
             }
         };
 
-        public Travel[] List()               => _travelsCollection.ToArray();
-        public Travel   Get(string travelId) => _travelsCollection.SingleOrDefault(travel => travel.Id == travelId);
+        public Travel[] List() => _travelsCollection.Select(t => t.Value).ToArray();
+
+        public Travel Get(string travelId) =>
+            _travelsCollection.Select(t => t.Value).SingleOrDefault(travel => travel.Id == travelId);
 
         public Travel Update(string travelId, Travel newValue) {
             var travel = Get(travelId);
 
             if (travel is null) throw new ArgumentException("Travel doesn't exist");
 
-            travel = newValue;
+            _travelsCollection[travelId] = newValue;
 
-            return travel;
+            return newValue;
         }
 
         public class Travel {
