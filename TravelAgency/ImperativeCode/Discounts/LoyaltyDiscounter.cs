@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using static TravelAgency.ImperativeCode.TravelProvider;
 
 namespace TravelAgency.ImperativeCode.Discounts {
     public interface ILoyaltyDiscounter {
@@ -17,7 +15,7 @@ namespace TravelAgency.ImperativeCode.Discounts {
         }
 
         public decimal Discount(decimal price, string userId) {
-            const int minimumTravelCount = 3;
+            const int minimumNumberOfTravels = 3;
 
             var now           = _dateTimeProvider.GetUtcNow();
             var lastYearStart = new DateTimeOffset(now.Year - 1, 1, 1, 0, 0, 0, TimeSpan.Zero);
@@ -25,21 +23,20 @@ namespace TravelAgency.ImperativeCode.Discounts {
 
             var travels = _travelProvider.List();
 
-            var userLastYearTravels               = new List<Travel>();
-            var userBoughtAtLeast3TravelsLastYear = false;
+            var userLastYearTravelsCount                 = 0;
+            var userBoughtMinimumNumberOfTravelsLastYear = false;
 
-            for (var i = 0; i < travels.Length; i++) {
-                var travel = travels[i];
+            foreach (var travel in travels) {
                 if (travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd)
-                    userLastYearTravels.Add(travel);
-
-                if (userLastYearTravels.Count == minimumTravelCount) {
-                    userBoughtAtLeast3TravelsLastYear = true;
+                    userLastYearTravelsCount++;
+                
+                if (userLastYearTravelsCount > minimumNumberOfTravels) {
+                    userBoughtMinimumNumberOfTravelsLastYear = true;
                     break;
                 }
             }
 
-            return userBoughtAtLeast3TravelsLastYear
+            return userBoughtMinimumNumberOfTravelsLastYear
                 ? price * 0.8m
                 : price;
         }

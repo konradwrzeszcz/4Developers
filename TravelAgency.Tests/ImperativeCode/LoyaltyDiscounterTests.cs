@@ -24,6 +24,10 @@ namespace Tests.ImperativeCode {
                     BoughtBy = userId
                 },
                 new Travel {
+                    From     = new DateTimeOffset(2021, 8, 21, 3, 3, 0, TimeSpan.Zero),
+                    BoughtBy = userId
+                },
+                new Travel {
                     From     = new DateTimeOffset(2021, 12, 31, 23, 59, 59, TimeSpan.Zero),
                     BoughtBy = userId
                 }

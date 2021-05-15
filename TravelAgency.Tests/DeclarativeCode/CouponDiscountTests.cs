@@ -1,6 +1,5 @@
 using System;
 using FluentAssertions;
-using TravelAgency.DeclarativeCode;
 using TravelAgency.DeclarativeCode.Domain;
 using Xunit;
 

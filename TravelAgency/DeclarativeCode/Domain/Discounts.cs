@@ -19,17 +19,19 @@ namespace TravelAgency.DeclarativeCode.Domain {
         public static decimal CalculateLoyaltyDiscount(
             this decimal price, string userId, Travel[] travels, DateTimeOffset now
         ) {
-            const int minimumTravelCount = 3;
+            const int minimumNumberOfTravels = 3;
 
             var lastYearStart = new DateTimeOffset(now.Year - 1, 1, 1, 0, 0, 0, TimeSpan.Zero);
             var lastYearEnd   = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
 
-            var userLastYearTravels = travels
+            var userBoughtMinimumNumberOfTravelsLastYear = travels
                 .Where(travel =>
-                    travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd)
-                .Count();
+                    travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd
+                )
+                .Skip(minimumNumberOfTravels)
+                .Any();
 
-            return userLastYearTravels >= minimumTravelCount
+            return userBoughtMinimumNumberOfTravelsLastYear
                 ? price * 0.8m
                 : price;
         }
