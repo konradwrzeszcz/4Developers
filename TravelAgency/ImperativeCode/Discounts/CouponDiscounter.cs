@@ -6,18 +6,16 @@ namespace TravelAgency.ImperativeCode.Discounts {
     }
 
     public class CouponDiscounter : ICouponDiscounter {
-        public const string Code2021 = "CHEAPER_TRAVEL_2021";
-
         private readonly IDateTimeProvider _dateTimeProvider;
-
         public CouponDiscounter(IDateTimeProvider dateTimeProvider) => _dateTimeProvider = dateTimeProvider;
 
         public decimal Discount(decimal price, string couponCode) {
-            if (couponCode == Code2021 &&
-                _dateTimeProvider.GetUtcNow() < new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero))
-                return price * 0.8m;
+            var code2021             = "CHEAPER_TRAVEL_2021";
+            var couponExpirationDate = new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
-            return price;
+            return couponCode == code2021 && _dateTimeProvider.GetUtcNow() < couponExpirationDate
+                ? price * 0.8m
+                : price;
         }
     }
 }
