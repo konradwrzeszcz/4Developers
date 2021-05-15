@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using static TravelAgency.CrazyFunctional.Domain.DiscountRuleModule;
+using static TravelAgency.WithRecords.Domain.DiscountRuleModule;
 using static TravelAgency.DeclarativeCode.TravelDataStore;
 
-namespace TravelAgency.CrazyFunctional.Domain {
+namespace TravelAgency.WithRecords.Domain {
     public record CouponCode(string Value);
 
     public record Amount(decimal Value);

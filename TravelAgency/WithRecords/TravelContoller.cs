@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TravelAgency.CrazyFunctional.Domain;
+using TravelAgency.WithRecords.Domain;
 using TravelAgency.DeclarativeCode;
 using static TravelAgency.Contracts;
-using static TravelAgency.CrazyFunctional.Domain.ApplyDiscountModule;
-using static TravelAgency.CrazyFunctional.Domain.DiscountRuleModule;
+using static TravelAgency.WithRecords.Domain.ApplyDiscountModule;
+using static TravelAgency.WithRecords.Domain.DiscountRuleModule;
 
-namespace TravelAgency.CrazyFunctional {
+namespace TravelAgency.WithRecords {
     [ApiController]
     [Route("crazy-functional/travels")]
     public class TravelController : ControllerBase {
