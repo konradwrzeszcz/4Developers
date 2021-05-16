@@ -20,10 +20,9 @@ namespace TravelAgency.DeclarativeCode.Domain {
         public static decimal CalculateLoyaltyDiscount(
             this decimal price, string userId, Travel[] travels, DateTimeOffset now
         ) {
-            const int minimumNumberOfTravels = 3;
-
-            var lastYearStart = new DateTimeOffset(now.Year - 1, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            var lastYearEnd   = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
+            var minimumNumberOfTravels = 3;
+            var lastYearStart          = new DateTimeOffset(now.Year - 1, 1, 1, 0, 0, 0, TimeSpan.Zero);
+            var lastYearEnd            = new DateTimeOffset(now.Year, 1, 1, 0, 0, 0, TimeSpan.Zero).AddTicks(-1);
 
             var userBoughtMinimumNumberOfTravelsLastYear = travels
                 .Where(travel =>
