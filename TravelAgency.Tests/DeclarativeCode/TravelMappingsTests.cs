@@ -9,8 +9,7 @@ namespace Tests.DeclarativeCode {
         [Fact]
         public void should_map() {
             //arrange
-            var source = new TravelDataStore.Travel
-            {
+            var source = new TravelDataStore.Travel {
                 Id          = "random_id",
                 Destination = "random_destination",
                 From        = new DateTimeOffset(2021, 6, 1, 10, 0, 0, TimeSpan.Zero),
@@ -27,10 +26,10 @@ namespace Tests.DeclarativeCode {
                 To          = new DateTimeOffset(2021, 6, 7, 20, 0, 0, TimeSpan.Zero),
                 Price       = 12345.67m
             };
-            
+
             //act
             var result = source.Map();
-            
+
             //assert
             result.Should().BeEquivalentTo(expected);
         }

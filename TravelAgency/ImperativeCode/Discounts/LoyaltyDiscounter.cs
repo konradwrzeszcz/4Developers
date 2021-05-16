@@ -29,7 +29,7 @@ namespace TravelAgency.ImperativeCode.Discounts {
             foreach (var travel in travels) {
                 if (travel.BoughtBy == userId && travel.From >= lastYearStart && travel.From <= lastYearEnd)
                     userLastYearTravelsCount++;
-                
+
                 if (userLastYearTravelsCount > minimumNumberOfTravels) {
                     userBoughtMinimumNumberOfTravelsLastYear = true;
                     break;

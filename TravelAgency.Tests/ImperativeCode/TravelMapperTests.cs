@@ -10,9 +10,8 @@ namespace Tests.ImperativeCode {
         public void should_map() {
             //arrange
             var sut = new TravelMapper();
-            
-            var source = new TravelProvider.Travel
-            {
+
+            var source = new TravelProvider.Travel {
                 Id          = "random_id",
                 Destination = "random_destination",
                 From        = new DateTimeOffset(2021, 6, 1, 10, 0, 0, TimeSpan.Zero),
@@ -29,10 +28,10 @@ namespace Tests.ImperativeCode {
                 To          = new DateTimeOffset(2021, 6, 7, 20, 0, 0, TimeSpan.Zero),
                 Price       = 12345.67m
             };
-            
+
             //act
             var result = sut.Map(source);
-            
+
             //assert
             result.Should().BeEquivalentTo(expected);
         }
