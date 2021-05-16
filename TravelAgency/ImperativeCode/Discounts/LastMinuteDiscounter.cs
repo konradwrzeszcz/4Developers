@@ -10,11 +10,9 @@ namespace TravelAgency.ImperativeCode.Discounts {
 
         public LastMinuteDiscounter(IDateTimeProvider dateTimeProvider) => _dateTimeProvider = dateTimeProvider;
 
-        public decimal Discount(decimal price, DateTimeOffset travelStartDate) {
-            if (travelStartDate.AddMonths(-1) < _dateTimeProvider.GetUtcNow())
-                return price * 0.8m;
-
-            return price;
-        }
+        public decimal Discount(decimal price, DateTimeOffset travelStartDate)
+            => travelStartDate.AddMonths(-1) < _dateTimeProvider.GetUtcNow()
+                ? price * 0.8m
+                : price;
     }
 }

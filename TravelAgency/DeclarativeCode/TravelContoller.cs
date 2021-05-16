@@ -16,16 +16,14 @@ namespace TravelAgency.DeclarativeCode {
 
         [HttpGet("{travelId}")]
         public ActionResult<GetTravelRequest.Response> Get([FromQuery] GetTravelRequest request, string travelId) {
-            var travel = _travelDataStore.Get(travelId);
-            if (travel is null)
-                return NotFound();
-
-            var now = _getUtcNow();
+            var travel  = _travelDataStore.Get(travelId);
+            var now     = _getUtcNow();
+            var travels = _travelDataStore.List();
 
             var discountedPrice = travel.Price
                 .CalculateCouponDiscount(request.DiscountCouponCode, now)
                 .CalculateLastMinuteDiscount(travel.From, now)
-                .CalculateLoyaltyDiscount(request.UserId, _travelDataStore.List(), now);
+                .CalculateLoyaltyDiscount(request.UserId, travels, now);
 
             return new GetTravelRequest.Response {
                 Travel          = travel.Map(),
