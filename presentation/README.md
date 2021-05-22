@@ -151,3 +151,9 @@ Kolejną osobą którą warto śledzić jest Mark Seeman, prowadzi bloga, na kt�
 
 ## Isaac Abraham
 Ostatnią osobą którą chcę polecić jest Isaac Abraham, autor książki Get Programming with F#, której przyznam się, nie czytałem, ale kilka osób mi ją bardzo polecało. Oglądałem za to prelekcję Isaaca na meetupie Barcelona .NET Core, w której porównywał C# i F#, którą mogę szczerze polecić.
+
+
+*** 
+images come from twitter pages @ploeh, @ScottWlaschin, @la_yumba, @isaac_abraham</br>
+books images come from amazon.com
+***
