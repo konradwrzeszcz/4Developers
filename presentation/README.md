@@ -1,7 +1,7 @@
 Link to Prezi: https://prezi.com/view/R6UfCQHMzaC1m4Ejdfom/
 
 # WHOAMI
-Cześć, jestem Konrad Wrzeszcz. Mam 5 lat doświadczenia w .NET. Pracuję w software housie Skyrise.Tech w Katowicach. Gdyby kogoś interesował kod, macie link poniżej.
+Cześć, jestem Konrad Wrzeszcz. Mam 5 lat doświadczenia jako .NET developer. Pracuję w software housie Skyrise.Tech w Katowicach. Gdyby kogoś interesował kod, macie link poniżej.
 # Agenda
 Co to ta funkcyjność i w czym mi może pomóc?</br>
 Opowiem wam dziś o tym
