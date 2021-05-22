@@ -1,3 +1,5 @@
+Link to Prezi: https://prezi.com/view/R6UfCQHMzaC1m4Ejdfom/
+
 # WHOAMI
 Cześć, jestem Konrad Wrzeszcz. Mam 5 lat doświadczenia w .NET. Pracuję w software housie Skyrise.Tech w Katowicach. Gdyby kogoś interesował kod, macie link poniżej.
 # Agenda
