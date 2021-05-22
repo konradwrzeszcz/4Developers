@@ -6,15 +6,15 @@ Cześć, jestem Konrad Wrzeszcz. Mam 5 lat doświadczenia jako .NET developer. P
 Co to ta funkcyjność i w czym mi może pomóc?</br>
 Opowiem wam dziś o tym
 
-1. jakie zauważyliśmy problemy w standardowym podejściu pisania apek opartych o AspNecie, które nagminnie pojawiały się w całym naszym systemie
+1. Jakie zauważyliśmy problemy w standardowym podejściu pisania apek opartych o AspNecie, które nagminnie pojawiały się w całym naszym systemie
 
-2. jak je zaadresowaliśmy stosując niektóre techniki z programowania funkcyjnego
+2. Jak je zaadresowaliśmy stosując niektóre techniki z programowania funkcyjnego
 
-3. podsumujemy naszą 2 letnia pracę, zobaczymy wtedy co w naszym podejściu działa, a co nie
+3. Podsumujemy naszą 2 letnia pracę, zobaczymy wtedy co w naszym podejściu działa, a co nie
 
-4. przejrzymy dalsze plany rozwoju
+4. Przejrzymy dalsze plany rozwoju
 
-5. no i podrzuce wam jakieś materiały, gdybyście się chcieli rozejrzeć w tym temacie
+5. No i podrzuce wam jakieś materiały, gdybyście się chcieli rozejrzeć w tym temacie
 
 # Wstęp
 We wstępie chciałbym powiedzieć wam, czym prezentacja nie jest
@@ -27,8 +27,9 @@ We wstępie chciałbym powiedzieć wam, czym prezentacja nie jest
 
 # Problemy
 Dla zobrazowania problemu stworzyłem aplikację, która mniej więcej obrazuje standardowe podejście pisania kodu w firmie klienta.</br>
-Jest to biuro podróży, gdzie użytkownik klika sobie w daną podróż i z backendu zwracane są szczegółowe dane podróży oraz wyliczane są zniżki, które użytkownik może wykorzystać.
-Standardowo wydzieliłem logikę do obiektów - w naszym przypadku są to discountery (albo bardziej po naszemu - zniżkacze). Nasze zniżkacze są odpowiedzialne za wyliczenie zniżek z kuponu, last minute, albo lojalnościowej. Dodatkowo są obiekty dostarczające dane - DateTimeProvider do obecnego czasu oraz TravelProvider do zapisywania podróży w bazie danych, oraz obiekt pomocniczy Mapper służący do mapowania DTO.</br>
+Jest to biuro podróży, gdzie użytkownik klika sobie w daną podróż i z backendu zwracane są szczegółowe dane podróży oraz wyliczane są zniżki, które użytkownik może wykorzystać.</br>
+Standardowo wydzieliłem logikę do obiektów - w naszym przypadku są to discountery (albo bardziej po naszemu - zniżkacze). Nasze zniżkacze są odpowiedzialne za wyliczenie zniżek z kuponu, last minute, albo lojalnościowej.</br>
+Dodatkowo są obiekty dostarczające dane - DateTimeProvider do obecnego czasu oraz TravelProvider do zapisywania podróży w bazie danych, oraz obiekt pomocniczy Mapper służący do mapowania DTO.</br>
 Więc jakie problemy zauważyliśmy w takim pisaniu kodu:
 
 ## Morze abstrakcji
